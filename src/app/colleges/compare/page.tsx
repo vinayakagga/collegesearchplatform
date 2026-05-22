@@ -1,20 +1,161 @@
-import Link from "next/link"
-import { Navbar } from "@/components/navbar"
-import { Button } from "@/components/ui/button"
+import { collegesData } from "@/lib/colleges-data"
+import { formatCurrency } from "@/lib/format"
 
-export default function ComparePage() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">
-        <h1 className="text-2xl font-bold">Compare colleges</h1>
-        <p className="mt-3 text-muted-foreground">
-          Select up to four colleges on the home page, then use Compare to review them side by side.
+interface ComparePageProps {
+  searchParams: {
+    ids?: string
+  }
+}
+
+export default function ComparePage({
+  searchParams,
+}: ComparePageProps) {
+  const ids =
+    searchParams.ids?.split(",") || []
+
+  const colleges = collegesData.filter((college) =>
+    ids.includes(college.id)
+  )
+
+  if (colleges.length === 0) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-muted-foreground">
+          No colleges selected for comparison
         </p>
-        <Button className="mt-8" asChild>
-          <Link href="/">Browse colleges</Link>
-        </Button>
-      </main>
-    </div>
+      </div>
+    )
+  }
+
+  return (
+    <main className="mx-auto max-w-7xl p-8">
+      <h1 className="mb-8 text-4xl font-bold">
+        Compare Colleges
+      </h1>
+
+      <div className="overflow-x-auto rounded-xl border">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b bg-secondary">
+              <th className="p-4 text-left">
+                Feature
+              </th>
+
+              {colleges.map((college) => (
+                <th
+                  key={college.id}
+                  className="p-4 text-left"
+                >
+                  {college.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr className="border-b">
+              <td className="p-4 font-medium">
+                Location
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  {college.location}
+                </td>
+              ))}
+            </tr>
+
+            <tr className="border-b">
+              <td className="p-4 font-medium">
+                Tuition Fees
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  {formatCurrency(college.tuition)}
+                </td>
+              ))}
+            </tr>
+
+            <tr className="border-b">
+              <td className="p-4 font-medium">
+                Ranking
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  #{college.ranking}
+                </td>
+              ))}
+            </tr>
+
+            <tr className="border-b">
+              <td className="p-4 font-medium">
+                Acceptance Rate
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  {college.acceptanceRate}%
+                </td>
+              ))}
+            </tr>
+
+            <tr className="border-b">
+              <td className="p-4 font-medium">
+                Enrollment
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  {college.enrollment.toLocaleString()}
+                </td>
+              ))}
+            </tr>
+
+            <tr>
+              <td className="p-4 font-medium">
+                Programs
+              </td>
+
+              {colleges.map((college) => (
+                <td
+                  key={college.id}
+                  className="p-4"
+                >
+                  <div className="flex flex-wrap gap-2">
+                    {college.programs.map((program) => (
+                      <span
+                        key={program}
+                        className="rounded bg-secondary px-2 py-1 text-sm"
+                      >
+                        {program}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+              ))}
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </main>
   )
 }

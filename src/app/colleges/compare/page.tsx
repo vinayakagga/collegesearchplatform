@@ -1,149 +1,347 @@
-// src/app/colleges/compare/page.tsx
-import { collegesData } from "@/lib/colleges-data";
-import { formatCurrency } from "@/lib/format";
-import Link from "next/link";
+import Link from "next/link"
+
+import { collegesData } from "@/lib/colleges-data"
+import { formatCurrency, formatNumber } from "@/lib/format"
 
 interface ComparePageProps {
-  searchParams: Promise<{ ids?: string }>;
+  searchParams: Promise<{ ids?: string }>
 }
 
-export default async function CompareCollegesPage({ searchParams }: ComparePageProps) {
-  // Await searchParams per Next.js App Router specification
-  const { ids } = await searchParams;
-  
-  // Parse comma-separated string IDs into a searchable array
-  const selectedIds = ids ? ids.split(",") : [];
+export default async function CompareCollegesPage({
+  searchParams,
+}: ComparePageProps) {
 
-  // Filter out the full matching college objects from the known static dataset
-  const comparedColleges = (collegesData || []).filter((college) =>
+  const { ids } = await searchParams
+
+  const selectedIds = ids
+    ? ids.split(",")
+    : []
+
+  const colleges = collegesData.filter((college) =>
     selectedIds.includes(college.id.toString())
-  );
+  )
 
-  // Fallback view if zero or invalid identifiers make it to the route params
-  if (comparedColleges.length === 0) {
+  if (colleges.length === 0) {
     return (
-      <main className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 text-slate-400 mb-4 text-2xl">
+      <main className="mx-auto max-w-4xl px-4 py-20 text-center">
+
+        <div className="mb-4 text-5xl">
           📊
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">No colleges selected for comparison</h1>
-        <p className="text-slate-500 mt-2">Go back to the homepage and select at least two institutions to evaluate.</p>
-        <Link 
-          href="/" 
-          className="mt-6 inline-block bg-slate-900 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-slate-800 transition shadow-sm"
+
+        <h1 className="text-3xl font-bold">
+          No Colleges Selected
+        </h1>
+
+        <p className="mt-3 text-muted-foreground">
+          Select at least two colleges to compare.
+        </p>
+
+        <Link
+          href="/"
+          className="mt-6 inline-block rounded-xl bg-primary px-5 py-3 text-primary-foreground"
         >
           Back to Browse
         </Link>
+
       </main>
-    );
+    )
   }
 
+  // Winner Logic
+  const bestRanking = Math.min(
+    ...colleges.map((c) => c.ranking)
+  )
+
+  const bestCampusLife = Math.max(
+    ...colleges.map((c) => c.campusLife || 0)
+  )
+
+  const lowestTuition = Math.min(
+    ...colleges.map((c) => c.tuition)
+  )
+
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10">
-      {/* Header Info Area */}
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between border-b border-slate-200 pb-6 mb-10">
+    <main className="mx-auto max-w-7xl px-4 py-10">
+
+      {/* Header */}
+      <div className="mb-10 flex flex-col gap-4 border-b pb-6 md:flex-row md:items-center md:justify-between">
+
         <div>
-          <Link href="/" className="text-sm font-medium text-slate-500 hover:text-slate-800 transition flex items-center gap-1">
+
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
             ← Back to Search
           </Link>
-          <h1 className="text-3xl font-bold text-slate-900 mt-2 tracking-tight">Compare Institutions</h1>
+
+          <h1 className="mt-3 text-4xl font-bold tracking-tight">
+            Compare Colleges
+          </h1>
+
         </div>
-        <div>
-          <span className="inline-flex items-center text-sm font-semibold bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full">
-            Comparing {comparedColleges.length} Colleges
-          </span>
+
+        <div className="rounded-full border bg-secondary/40 px-4 py-2 text-sm font-medium">
+          Comparing {colleges.length} Colleges
         </div>
+
       </div>
 
-      {/* Comparison Grid Board */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-        {comparedColleges.map((college) => (
-          <div 
-            key={college.id} 
-            className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition duration-200"
+      {/* Recommendation Summary */}
+      <div className="mb-10 rounded-3xl border bg-secondary/20 p-6">
+
+        <h2 className="text-2xl font-semibold">
+          Recommendation Summary
+        </h2>
+
+        <div className="mt-5 space-y-3 text-muted-foreground">
+
+          {colleges.map((college) => (
+            <p key={college.id}>
+
+              <span className="font-semibold text-foreground">
+                {college.name}
+              </span>{" "}
+
+              is ideal for students prioritizing{" "}
+
+              {college.bestFor?.join(", ")}.
+
+            </p>
+          ))}
+
+        </div>
+
+      </div>
+
+      {/* Compare Grid */}
+      <div className="grid gap-6 lg:grid-cols-3">
+
+        {colleges.map((college) => (
+
+          <div
+            key={college.id}
+            className="overflow-hidden rounded-3xl border bg-card shadow-sm"
           >
-            {/* Visual Media Wrapper */}
-            <div className="relative h-44 bg-slate-100">
-              {college.image ? (
-                <img 
-                  src={college.image} 
-                  alt={college.name} 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-sm">
-                  No Image Available
-                </div>
-              )}
-              <div className="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-xs font-bold text-slate-800 shadow-sm flex items-center gap-1">
+
+            {/* Image */}
+            <div className="relative h-52">
+
+              <img
+                src={college.image}
+                alt={college.name}
+                className="h-full w-full object-cover"
+              />
+
+              <div className="absolute right-4 top-4 rounded-xl bg-background/95 px-3 py-1 text-sm font-semibold shadow-sm">
                 ⭐ {college.rating}
               </div>
+
             </div>
 
-            {/* Core Analytical Metric Fields */}
-            <div className="p-6 space-y-6">
+            <div className="space-y-6 p-6">
+
+              {/* Header */}
               <div>
-                <h2 className="text-xl font-bold text-slate-900 tracking-tight line-clamp-1" title={college.name}>
+
+                <h2 className="text-2xl font-bold">
                   {college.name}
                 </h2>
-                <p className="text-sm text-slate-500 mt-1 flex items-center gap-1">
+
+                <p className="mt-2 text-sm text-muted-foreground">
                   📍 {college.location}
                 </p>
+
               </div>
 
-              <div className="space-y-4 border-t border-slate-100 pt-5">
-                {/* Tuition Row */}
-                <div>
-                  <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase block">
-                    Annual Fees
-                  </span>
-                  <p className="text-xl font-extrabold text-slate-900 mt-0.5">
-                    {formatCurrency(college.tuition)}
-                  </p>
+              {/* Best For */}
+              <div>
+
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  Best For
+                </h3>
+
+                <div className="flex flex-wrap gap-2">
+
+                  {college.bestFor?.map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-full bg-secondary px-3 py-1 text-xs font-medium"
+                    >
+                      ⭐ {item}
+                    </div>
+                  ))}
+
                 </div>
 
-                <div>
-                  <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase block">
-                    Acceptance Rate
+              </div>
+
+              {/* Metrics */}
+              <div className="space-y-4 border-t pt-5">
+
+                {/* Ranking */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
+                    Ranking
                   </span>
-                  <p className="text-lg font-bold text-emerald-600 mt-0.5">
-                    {college.acceptanceRate}%
-                  </p>
+
+                  <div className="flex items-center gap-2 font-semibold">
+
+                    <span>
+                      #{college.ranking}
+                    </span>
+
+                    {college.ranking === bestRanking && (
+                      <span className="text-green-500">
+                        🏆
+                      </span>
+                    )}
+
+                  </div>
+
                 </div>
 
-                <div>
-                  <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase block">
+                {/* Tuition */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
+                    Tuition
+                  </span>
+
+                  <div className="flex items-center gap-2 font-semibold">
+
+                    <span>
+                      {formatCurrency(college.tuition)}
+                    </span>
+
+                    {college.tuition === lowestTuition && (
+                      <span className="text-green-500">
+                        💰
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+                {/* Average Package */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
+                    Avg Package
+                  </span>
+
+                  <span className="font-semibold">
+                    {college.averagePackage}
+                  </span>
+
+                </div>
+
+                {/* Highest Package */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
+                    Highest Package
+                  </span>
+
+                  <span className="font-semibold">
+                    {college.highestPackage}
+                  </span>
+
+                </div>
+
+                {/* Campus Life */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
+                    Campus Life
+                  </span>
+
+                  <div className="flex items-center gap-2 font-semibold">
+
+                    <span>
+                      {college.campusLife} / 5
+                    </span>
+
+                    {college.campusLife === bestCampusLife && (
+                      <span className="text-green-500">
+                        🎉
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+                {/* Enrollment */}
+                <div className="flex items-center justify-between">
+
+                  <span className="text-muted-foreground">
                     Enrollment
                   </span>
-                  <p className="text-lg font-bold text-slate-900 mt-0.5">
-                    {college.enrollment.toLocaleString("en-US")}
-                  </p>
+
+                  <span className="font-semibold">
+                    {formatNumber(college.enrollment)}
+                  </span>
+
                 </div>
 
-                <div>
-                  <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase block">
-                    Available Programs
-                  </span>
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {college.programs.length > 0 ? (
-                      college.programs.map((program) => (
-                        <span
-                          key={program}
-                          className="text-[11px] font-semibold bg-slate-50 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-md uppercase tracking-wide"
-                        >
-                          {program}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-xs text-slate-400 italic">No programs listed</span>
-                    )}
-                  </div>
-                </div>
               </div>
+
+              {/* Programs */}
+              <div>
+
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  Programs
+                </h3>
+
+                <div className="flex flex-wrap gap-2">
+
+                  {college.programs?.map((program) => (
+                    <div
+                      key={program}
+                      className="rounded-xl border px-3 py-1 text-xs font-medium"
+                    >
+                      {program}
+                    </div>
+                  ))}
+
+                </div>
+
+              </div>
+
+              {/* Recruiters */}
+              <div>
+
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  Top Recruiters
+                </h3>
+
+                <div className="flex flex-wrap gap-2">
+
+                  {college.topRecruiters?.map((company) => (
+                    <div
+                      key={company}
+                      className="rounded-xl bg-secondary/40 px-3 py-1 text-xs font-medium"
+                    >
+                      {company}
+                    </div>
+                  ))}
+
+                </div>
+
+              </div>
+
             </div>
+
           </div>
+
         ))}
+
       </div>
+
     </main>
-  );
+  )
 }

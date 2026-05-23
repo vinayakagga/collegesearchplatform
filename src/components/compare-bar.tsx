@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { X, GitCompare } from "lucide-react"
 import type { College } from "./college-card"
@@ -38,13 +39,25 @@ export function CompareBar({ selectedColleges, onRemove, onClear }: CompareBarPr
             ))}
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={onClear}>
+        <div className="flex items-center gap-3">
+          <Button variant="outline" onClick={onClear}>
             Clear
           </Button>
-          <Button size="sm" disabled={selectedColleges.length < 2}>
-            Compare Now
-          </Button>
+
+          {selectedColleges.length < 2 ? (
+            <Button disabled={true}>
+              Compare Now
+            </Button>
+          ) : (
+            <Link
+              href={`/colleges/compare?ids=${selectedColleges.map((c) => c.id).join(",")}`}
+              className="inline-block"
+            >
+              <Button className="cursor-pointer">
+                Compare Now
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

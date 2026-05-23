@@ -80,6 +80,7 @@ export default async function CompareCollegesPage({
               <p key={college.id} className="text-base leading-8 text-muted-foreground">
                 <span className="font-semibold text-foreground">{college.name}</span> is ideal
                 for students prioritizing {college.bestFor?.join(", ")}.
+              </p>
             ))}
           </div>
         </section>

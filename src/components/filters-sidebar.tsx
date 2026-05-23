@@ -75,15 +75,15 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
     (filters.tuitionRange[0] > TUITION_MIN || filters.tuitionRange[1] < TUITION_MAX ? 1 : 0)
 
   return (
-    <aside className="w-full space-y-6 rounded-xl border border-border/50 bg-card p-5">
+    <aside className="w-full space-y-6 rounded-xl border border-border bg-card p-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">Filters</h3>
+        <h3 className="text-base font-semibold">Filters</h3>
         {activeFiltersCount > 0 && (
           <Button
             variant="ghost"
             size="sm"
             onClick={onClearFilters}
-            className="h-auto gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
+            className="h-auto gap-1.5 px-2 py-1 text-sm text-muted-foreground hover:text-foreground"
           >
             <X className="h-3 w-3" />
             Clear all ({activeFiltersCount})
@@ -93,7 +93,7 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
 
       <div className="space-y-4">
         <div className="space-y-3">
-          <Label className="text-xs font-medium text-muted-foreground">School Type</Label>
+          <Label className="text-sm font-medium text-muted-foreground">School Type</Label>
           <div className="space-y-2.5">
             {schoolTypes.map((type) => (
               <div key={type.id} className="flex items-center gap-2.5">
@@ -106,7 +106,7 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
                 />
                 <Label
                   htmlFor={type.id}
-                  className="text-sm font-normal text-foreground/80 cursor-pointer"
+                  className="text-base font-normal text-foreground/80 cursor-pointer"
                 >
                   {type.label}
                 </Label>
@@ -118,7 +118,7 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
         <div className="h-px bg-border/50" />
 
         <div className="space-y-3">
-          <Label className="text-xs font-medium text-muted-foreground">Location</Label>
+          <Label className="text-sm font-medium text-muted-foreground">Location</Label>
           <Select
             value={filters.location}
             onValueChange={(value) => onFilterChange("location", value)}
@@ -139,7 +139,7 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
         <div className="h-px bg-border/50" />
 
         <div className="space-y-3">
-          <Label className="text-xs font-medium text-muted-foreground">Ranking</Label>
+          <Label className="text-sm font-medium text-muted-foreground">Ranking</Label>
           <Select
             value={filters.ranking}
             onValueChange={(value) => onFilterChange("ranking", value)}
@@ -160,7 +160,7 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
         <div className="h-px bg-border/50" />
 
         <div className="space-y-3">
-          <Label className="text-xs font-medium text-muted-foreground">Acceptance Rate</Label>
+          <Label className="text-sm font-medium text-muted-foreground">Acceptance Rate</Label>
           <Select
             value={filters.acceptanceRate}
             onValueChange={(value) => onFilterChange("acceptanceRate", value)}
@@ -182,8 +182,8 @@ export function FiltersSidebar({ filters, onFilterChange, onClearFilters }: Filt
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium text-muted-foreground">Tuition Range</Label>
-            <span className="text-xs text-muted-foreground">
+            <Label className="text-sm font-medium text-muted-foreground">Tuition Range</Label>
+            <span className="text-sm text-muted-foreground">
               {formatCurrency(filters.tuitionRange[0])} - {formatCurrency(filters.tuitionRange[1])}
             </span>
           </div>

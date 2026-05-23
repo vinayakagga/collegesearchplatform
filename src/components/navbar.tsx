@@ -9,26 +9,26 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <GraduationCap className="h-5 w-5 text-primary-foreground" />
+        <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-90">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+            <GraduationCap className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-xl font-semibold tracking-tight">UniScout</span>
+          <span className="text-base font-semibold tracking-tight">UniScout</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          <Link href="/" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <Link href="/" className="text-base font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground">
             Browse
           </Link>
-          <Link href="/colleges/compare" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <Link href="/colleges/compare" className="text-base font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground">
             Compare
           </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <Link href="#" className="text-base font-medium text-muted-foreground transition-colors hover:text-foreground">
             Rankings
           </Link>
-          <Link href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <Link href="#" className="text-base font-medium text-muted-foreground transition-colors hover:text-foreground">
             Resources
           </Link>
         </nav>
@@ -51,16 +51,16 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="border-t border-border/50 bg-background md:hidden">
           <div className="space-y-1 px-4 py-4">
-            <Link href="/" className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+            <Link href="/" className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
               Browse
             </Link>
-            <Link href="/colleges/compare" className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+            <Link href="/colleges/compare" className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
               Compare
             </Link>
-            <Link href="#" className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+            <Link href="#" className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
               Rankings
             </Link>
-            <Link href="#" className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+            <Link href="#" className="block rounded-md px-3 py-2 text-base font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
               Resources
             </Link>
             <div className="flex gap-3 pt-4">

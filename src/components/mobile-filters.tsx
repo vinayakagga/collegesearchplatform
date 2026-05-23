@@ -26,7 +26,7 @@ export function MobileFilters({ filters, onFilterChange, onClearFilters, activeC
           <SlidersHorizontal className="h-4 w-4" />
           Filters
           {activeCount > 0 && (
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">
               {activeCount}
             </span>
           )}

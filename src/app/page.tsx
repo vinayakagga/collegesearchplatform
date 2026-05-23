@@ -173,24 +173,38 @@ export default function CollegeDiscoveryPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Discover Your <span className="text-primary">Dream College</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground text-pretty">
-            Explore and compare thousands of colleges to find the perfect fit for your academic journey.
+      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        {/* Hero */}
+        <section className="mx-auto mb-8 max-w-5xl rounded-2xl border border-border bg-muted/40 px-6 py-10 text-center sm:px-10 sm:py-12">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            College discovery
           </p>
-        </div>
+          <h1 className="mx-auto max-w-3xl text-5xl font-semibold tracking-tight leading-tight md:text-5xl lg:text-[4rem] lg:leading-[1.08]">
+            Find the right college,{" "}
+            <span className="text-primary">faster</span>
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-lg leading-7 text-muted-foreground md:text-xl">
+            Search institutions, refine by fees and rankings, and compare up to four
+            colleges in one view.
+          </p>
+          <div className="mx-auto mt-6 flex max-w-md flex-wrap items-center justify-center gap-3">
+            <span className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground">
+              Smart filters
+            </span>
+            <span className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground">
+              Side-by-side compare
+            </span>
+            <span className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground">
+              Placement insights
+            </span>
+          </div>
+        </section>
 
-        {/* Search Bar */}
-        <div className="mx-auto mb-8 max-w-2xl">
+        <div className="mx-auto mb-6 max-w-2xl">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
         </div>
 
-        {/* Results Header */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
           <div className="flex items-center gap-4">
             <MobileFilters
               filters={filters}
@@ -198,15 +212,15 @@ export default function CollegeDiscoveryPage() {
               onClearFilters={handleClearFilters}
               activeCount={activeFiltersCount}
             />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               <span className="font-medium text-foreground">{filteredColleges.length}</span>{" "}
               colleges found
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Sort by:</span>
+            <span className="text-base text-muted-foreground">Sort by:</span>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[160px]">
+              <SelectTrigger className="h-9 w-40 rounded-lg border-border">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
@@ -221,7 +235,7 @@ export default function CollegeDiscoveryPage() {
         </div>
 
         {/* Main Content */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 lg:gap-10">
           {/* Filters Sidebar - Desktop */}
           <div className="hidden w-72 shrink-0 lg:block">
             <div className="sticky top-24">
@@ -237,7 +251,7 @@ export default function CollegeDiscoveryPage() {
           <div className="flex-1">
             {paginatedColleges.length > 0 ? (
               <>
-                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3">
                   {paginatedColleges.map((college) => (
                     <CollegeCard
                       key={college.id}
@@ -260,8 +274,8 @@ export default function CollegeDiscoveryPage() {
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/50 py-20 text-center">
-                <div className="mb-4 rounded-full bg-secondary p-4">
+              <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/30 py-24 text-center">
+                <div className="mb-5 rounded-lg bg-muted p-4">
                   <svg
                     className="h-8 w-8 text-muted-foreground"
                     fill="none"

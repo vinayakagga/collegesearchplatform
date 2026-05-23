@@ -32,32 +32,23 @@ export default async function CollegeDetailPage({
 
       <Navbar />
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
 
-        {/* Back Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          asChild
-          className="mb-6"
-        >
-          <Link href="/">
-            ← Back to search
-          </Link>
+        <Button variant="ghost" size="sm" asChild className="mb-6 -ml-2 text-muted-foreground">
+          <Link href="/">← Back to search</Link>
         </Button>
 
-        {/* Main Card */}
-        <div className="overflow-hidden rounded-3xl border border-border/50 bg-card shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
 
-          {/* Hero Image */}
-          <div
-            className="h-72 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${college.image})`,
-            }}
-          />
+          <div className="relative h-72 bg-cover bg-center sm:h-80">
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${college.image})` }}
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-card via-card/20 to-transparent" />
+          </div>
 
-          <div className="space-y-10 p-8">
+          <div className="space-y-10 p-6 sm:p-8">
 
             {/* HERO */}
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -66,13 +57,13 @@ export default async function CollegeDetailPage({
 
                 <div className="flex flex-wrap items-center gap-3">
 
-                  <h1 className="text-4xl font-bold tracking-tight">
+                  <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                     {college.name}
                   </h1>
 
                   <Badge
-                    variant="secondary"
-                    className="capitalize"
+                    variant="outline"
+                    className="capitalize font-normal"
                   >
                     {college.type}
                   </Badge>
@@ -80,29 +71,30 @@ export default async function CollegeDetailPage({
                 </div>
 
                 <p className="mt-3 flex items-center gap-2 text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
+                  <MapPin className="h-5 w-5" />
                   {college.location}
                 </p>
 
                 <div className="mt-4 flex items-center gap-2">
 
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  <Star className="h-4 w-4 fill-amber-400/80 text-amber-400/80" />
 
-                  <span className="font-medium">
+                  <span className="text-base font-medium tabular-nums">
                     {college.rating} / 5
                   </span>
 
                 </div>
 
                 {/* Best For */}
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-6 flex flex-wrap gap-3">
 
                   {college.bestFor.map((item) => (
                     <Badge
                       key={item}
-                      className="rounded-full px-3 py-1 text-sm"
+                      variant="secondary"
+                      className="rounded-md px-2.5 py-0.5 text-sm font-normal"
                     >
-                      ⭐ {item}
+                      {item}
                     </Badge>
                   ))}
 
@@ -112,96 +104,83 @@ export default async function CollegeDetailPage({
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-3">
-
-                <Button>
-                  Compare College
-                </Button>
-
-                <Button variant="outline">
+                <Button className="rounded-lg">Compare College</Button>
+                <Button variant="outline" className="rounded-lg">
                   Save College
                 </Button>
-
               </div>
 
             </div>
 
-            {/* Quick Insights */}
-            <div>
-
-              <h2 className="mb-5 text-2xl font-semibold">
-                Quick Insights
+            <section className="border-t border-border pt-8">
+            <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                Quick insights
               </h2>
 
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-                <div className="rounded-2xl border bg-secondary/30 p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Average Package
                   </p>
 
-                  <p className="mt-2 text-2xl font-bold">
+                  <p className="mt-1.5 text-xl font-semibold tabular-nums">
                     {college.averagePackage}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border bg-secondary/30 p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Highest Package
                   </p>
 
-                  <p className="mt-2 text-2xl font-bold">
+                  <p className="mt-1.5 text-xl font-semibold tabular-nums">
                     {college.highestPackage}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border bg-secondary/30 p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Campus Life
                   </p>
 
-                  <p className="mt-2 text-2xl font-bold">
+                  <p className="mt-1.5 text-xl font-semibold tabular-nums">
                     {college.campusLife} / 5
                   </p>
                 </div>
 
-                <div className="rounded-2xl border bg-secondary/30 p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Ranking
                   </p>
 
-                  <p className="mt-2 text-2xl font-bold">
+                  <p className="mt-1.5 text-xl font-semibold tabular-nums">
                     #{college.ranking}
                   </p>
                 </div>
 
               </div>
 
-            </div>
+            </section>
 
-            {/* About */}
-            <div>
-
-              <h2 className="text-2xl font-semibold">
-                About the College
+            <section className="border-t border-border pt-8">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                About the college
               </h2>
-
-              <p className="mt-4 leading-8 text-muted-foreground">
+              <p className="mt-3 max-w-3xl text-[16px] leading-7 text-muted-foreground">
                 {college.description}
               </p>
+            </section>
 
-            </div>
-
-            {/* Academic Information */}
-            <div>
-
-              <h2 className="text-2xl font-semibold">
-                Academic Information
+            <section className="border-t border-border pt-8">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                Academic information
               </h2>
 
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
 
-                <div className="rounded-2xl border p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Annual Tuition
                   </p>
 
@@ -210,8 +189,8 @@ export default async function CollegeDetailPage({
                   </p>
                 </div>
 
-                <div className="rounded-2xl border p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Acceptance Rate
                   </p>
 
@@ -220,8 +199,8 @@ export default async function CollegeDetailPage({
                   </p>
                 </div>
 
-                <div className="rounded-2xl border p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Student Enrollment
                   </p>
 
@@ -230,8 +209,8 @@ export default async function CollegeDetailPage({
                   </p>
                 </div>
 
-                <div className="rounded-2xl border p-5">
-                  <p className="text-sm text-muted-foreground">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
+                  <p className="text-sm font-medium text-muted-foreground">
                     Student Rating
                   </p>
 
@@ -242,63 +221,54 @@ export default async function CollegeDetailPage({
 
               </div>
 
-            </div>
+            </section>
 
-            {/* Programs */}
-            <div>
-
-              <h2 className="text-2xl font-semibold">
-                Programs Offered
+            <section className="border-t border-border pt-8">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                Programs offered
               </h2>
 
               <div className="mt-5 flex flex-wrap gap-3">
 
                 {college.programs.map((program) => (
-                  <Badge
-                    key={program}
-                    variant="outline"
-                    className="rounded-full px-4 py-2 text-sm"
-                  >
-                    {program}
-                  </Badge>
+                    <Badge
+                      key={program}
+                      variant="outline"
+                      className="rounded-md px-3 py-1 text-sm font-normal"
+                    >
+                      {program}
+                    </Badge>
                 ))}
 
               </div>
 
-            </div>
+            </section>
 
-            {/* Recruiters */}
-            <div>
-
-              <h2 className="text-2xl font-semibold">
-                Top Recruiters
+            <section className="border-t border-border pt-8">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                Top recruiters
               </h2>
 
-              <div className="mt-5 flex flex-wrap gap-3">
-
+              <div className="mt-4 flex flex-wrap gap-2">
                 {college.topRecruiters.map((company) => (
                   <div
                     key={company}
-                    className="rounded-2xl border bg-secondary/20 px-5 py-3 font-medium"
+                    className="rounded-md border border-border bg-muted/40 px-3 py-2 text-base font-medium"
                   >
                     {company}
                   </div>
                 ))}
-
               </div>
+            </section>
 
-            </div>
-
-            {/* Student Reviews */}
-            <div>
-
-              <h2 className="text-2xl font-semibold">
-                Student Reviews
+            <section className="border-t border-border pt-8">
+              <h2 className="text-base font-semibold uppercase tracking-wider text-muted-foreground">
+                Student reviews
               </h2>
 
-              <div className="mt-5 space-y-4">
+              <div className="mt-4 space-y-3">
 
-                <div className="rounded-2xl border p-5">
+                <div className="rounded-lg border border-border bg-muted/30 p-4">
                   <div className="flex items-center justify-between">
 
                     <p className="font-semibold">
@@ -311,13 +281,13 @@ export default async function CollegeDetailPage({
 
                   </div>
 
-                  <p className="mt-3 text-muted-foreground">
+                  <p className="mt-3 text-sm text-muted-foreground">
                     Amazing peer group and strong placement opportunities.
                     The coding culture here pushes students to grow rapidly.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border p-5">
+                <div className="rounded-lg border border-border bg-muted/30 p-4">
                   <div className="flex items-center justify-between">
 
                     <p className="font-semibold">
@@ -336,7 +306,7 @@ export default async function CollegeDetailPage({
                   </p>
                 </div>
 
-                <div className="rounded-2xl border p-5">
+                <div className="rounded-lg border border-border bg-muted/30 p-4">
                   <div className="flex items-center justify-between">
 
                     <p className="font-semibold">
@@ -357,7 +327,7 @@ export default async function CollegeDetailPage({
 
               </div>
 
-            </div>
+            </section>
 
           </div>
 
